@@ -1,0 +1,81 @@
+/* Global values  */
+
+body{
+  overflow: hidden;
+  height: 100vh;
+}
+.content-flex {
+  display: flex;
+}
+/*  Start Top bar */
+.top-bar {
+  box-shadow: 1px 1px 10px 1px #cbc9c9;
+}
+.top-bar i{
+  color: #caedf4;
+  font-size: 50px;
+}
+/*  Side  Top bar */
+.side-bar {
+  width: 20%;
+  height: 100vh;
+  padding: 20px;
+  border-right: 1px solid rgba(183, 179, 179, 0.475);
+}
+.item-link {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  display: block;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+.item-link:hover{
+  color: #0cabcb;
+}
+.active{
+  color: #0cabcb;
+}
+.item-link i{
+  margin-right: 8px;
+}
+/* tabel style  */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  overflow: hidden;
+}
+
+tr:nth-child(even) {
+  background-color: #a0d4de;
+}
+
+th,
+td {
+  border: 1px solid rgba(133, 176, 179, 0.908);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+th {
+  background-color: black;
+  color: white;
+}
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+}
+.td-icons :nth-child(1) {
+  color: #0cabcb;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.td-icons :nth-child(2) {
+  color: red;
+  cursor: pointer;
+}

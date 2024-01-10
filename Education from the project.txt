@@ -1,0 +1,628 @@
+<label htmlFor="name"> Name </label>
+<input id="name" type="text" placeholder="Name...." />
+in react htmlFor to connect with id not for as html
+
+<!---------------------------------------------------------->
+
+
+ function StopSubmit(e) { 
+    e.preventDefault(); 
+ }
+
+its mean stop the default action and the default action here is submit and send data
+for example from this project stop this      <form onSubmit={StopSubmit}>
+
+
+<!--------------------------------------------------------------->
+ const [name, SetName] = useState("");
+ i used useState to make me able to get value from input and control it by SetName
+
+ <label htmlFor="name"> Name: </label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Name...."
+            required
+            value={name}    this a value of name its empty 
+            onChange={(e) => SetName(e.target.value)} this i order it tom make name value (e.target.value) its what the user typing
+          />
+<!-------------------------------------------------------------------------->
+  const [Accsept, SetAccsept] = useState(false); // i made this const to show the error message after click on register and dont show me any error message before click
+
+  function StopSubmit(e) {
+    e.preventDefault();
+    SetAccsept(true); i gave Accsept' value true when click register
+  }
+ {name.length < 3 && Accsept && <p>Name is too small</p>} // i made condition if name small and Accsept is true  show this paragraph
+
+
+<!-------------------------------------------------------------------------->
+
+ const [Flag, SetFlag] = useState(true); // i made this const to sending  the data after confirm all conditions 
+
+  function StopSubmit(e) {
+    e.preventDefault();
+    SetAccsept(true);
+    if (name === "" || password.length < 8 || repassword !== password) {
+      SetFlag(false);   // if any one of them is wrong will make Flag's value false and will not send anything to api
+    }else SetFlag(true);  // to make it able to send data for one click time because if i gave it wrog inputs will give me false and mind data to send until click two times to refresh
+    
+    if (Flag) {
+      // and if Flag is True will send the  data
+    }
+  }
+
+  <!----------------------------------------------------------------->
+             global infortmation useState 
+             when browsers or compiler read it will refresh before go th next line 
+             for example browsers or compiler will still reading until  SetAccsept(true);
+             will refresh and read the next line in this time 
+             thats mean the flag when you click in the first time will return true
+             and if click agian will go to the next line and give you false
+ /* example from projecr*/            
+function StopSubmit(e) {
+    e.preventDefault();
+    SetAccsept(true);
+    if (name === "" || password.length < 8 || repassword !== password) {
+      SetFlag(false);
+    }
+    if (Flag) {
+      //send data
+    }
+  }
+
+
+
+  <!----------------------------------------------------------------->
+
+
+
+
+ if (Flag) {
+      let res = axios
+        .post(`http://127.0.0.1:8000/api/register`, {  // this to send this object data 
+          name: name,
+          email: email,                               //these the data what the backend needed
+          password: password,
+          password_confirmation: repassword,
+        })
+        .then((t) => console.log(t)); // .then mean after this and (t ) its mean the reponse from network like (200) or (401)
+    }
+
+
+    /***********************************************************/
+
+
+
+ const [emailErorr, SetEmailError] = useState(""); //this to show message if response 422 email is alreadey benn taken
+  async function StopSubmit(e) {         // used aysnc to deaking with it as promise and worke in another thread
+    let Flag = true;                       // i used let here Instead of  const [Flag, SetFlag] = useState(true); because useState make me should click two times because it reloading and take the const value in the end in first click time  
+    e.preventDefault();                     // and let working while function  not after
+    SetAccsept(true);
+    if (name === "" || password.length < 8 || repassword !== password) {
+      Flag = false;
+    } else Flag = true;
+    try {
+      if (Flag) {
+        let res = await axios.post(`http://127.0.0.1:8000/api/register`, {          //used await to dont move to next line before finish this order  and this been instead of .Then
+          name: name,
+          email: email,
+          password: password,
+          password_confirmation: repassword,
+        });
+      }
+    } catch (err) {                                               // like else or catch the error 
+      SetEmailError(err.response.status);           //make rhe EmailRrror value 422
+    }
+  }
+
+
+
+
+ <label htmlFor="email"> Email: </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email...."
+            required
+            value={email}
+            onChange={(e) => SetEmail(e.target.value)}
+          />
+          {Accsept && emailErorr === 422 && (
+            <p className="error">Email is already taken</p> // and make condition if respone 422 show this message 
+          )}
+
+
+//***********************************************************************///
+
+
+
+/*   ** Router**
+
+
+//first step import it in index.js page to be global
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+
+
+//seconed step add Link instade of <a><a/>  in page like this and you should conect it with route in app.js page  
+<ul>
+        <Link to="/register" className="link">   //to its like add /register to endPoint in url
+          Register
+        </Link>
+        <Link to="/login" className="link">   //to its like add /login to endPoint in url 
+          Login
+        </Link>
+      </ul>
+
+//third step put route to going to the  show thelement in  element={<SignUp />}  if  path="/register" = to="/register"  in <Link> (endPoint) in the url
+
+function App() {
+  return (
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/register" element={<SignUp />} />
+      </Routes>
+    </div>
+  );
+}
+*/
+
+
+
+/* 
+
+
+ local storage and move to homepage 
+
+if (Flag) {
+        let res = await axios.post(`http://127.0.0.1:8000/api/register`, {
+          name: name,
+          email: email,
+          password: password,
+          password_confirmation: repassword,
+        });
+        if (res.status === 200) { if tis function return status 200
+          window.localStorage.setItem("email", email);  // set key and value in local storage 
+          window.location.pathname = "/"; // and go to end point /
+        }
+      }
+     catch (err) {
+      SetEmailError(err.response.status);
+    }
+ */
+
+
+ **********************************************************************************************************************************
+
+
+ /*   in Header page 
+ 
+ 
+  function LogOut() {
+    window.localStorage.removeItem("email"); //emove email key from local storage 
+    window.location.pathname = "/";   // go to home page
+  }
+  */
+
+
+  /*  
+    {!window.localStorage.getItem("email") ? (  // i put condtion  mean if will not find the key show this Ul and  Links 
+        <ul>
+          <Link to="/register" className="link">
+            Register
+          </Link>
+          <Link to="/login" className="link">
+            Login
+          </Link>{" "}
+        </ul>
+      ) : (
+        <div className="link" onClick={LogOut}> // omclick remove key and go to home as a function
+          log out
+        </div>
+      )}
+      
+       */
+
+
+**************************************************************************************************
+
+       /* Route
+  // step one here i created a nested Route       
+function App() {
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="/dashboard/users" element={<Users />} /> // i created  nested Route here to show <Users /> inside <Dashboard /> not as a single page
+        </Route>
+      </Routes>
+    </div>
+  );
+}
+       
+   //step two   put OutLet in parent of nested  for example ( <Dashboard />) from this project like this page  
+import { Outlet } from "react-router-dom";
+import SideBar from "./components/SideBar";
+import TopBar from "./components/TopBar";
+
+export default function Dashboard() {
+  return (
+    <div>
+      <TopBar />
+      <div className="content-flex">
+        <SideBar />
+        <div style={{ width: "80%" }}>
+          <Outlet />  // its mean show the nested Route (child) here <Users />                       
+        </div>          //  to be more clear  its render the child route's element if there is one  
+      </div>
+    </div>
+  );
+}
+
+         */
+
+
+
+
+         ******************************************* Users*************************************************************
+
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+
+export default function Users() {
+  const [users, SetUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/user/show`) //fetch the users's data 
+      .then((res) => res.json())  // preparing data to dealing with javascript 
+      .then((data) => SetUsers(data));// save data in Users by SetUsers
+  }, [users]); // to depends on count of users changed to remove the user in same click time but here we have too many requests issue 
+  function DeleteID(id) {   //(id) this parmter depends on in DeleteID(u.id) where in icon 
+    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`); //  delete the id user 
+  }
+
+  const ShowData = users.map((u, i) => (   //make fuctionto  get data and make map on it with parmters to get the info what i need  
+    <tr key={i}>
+      <td>{i + 1}</td>  // here the id increase 1 
+      <td>{u.name}</td> // get name from api
+      <td>{u.email}</td> // get email from api
+      <td className="td-icons">
+           <Link to={`${u.id}`}> //get id by map and u parmters go to /id from data base 
+          <i class="fa-regular fa-pen-to-square"></i>
+        </Link>
+        <i onClick={() => DeleteID(u.id)} class="fa-solid fa-trash"></i> //this trash icon give it function on click and give the parmters value
+      </td>
+    </tr>
+  ));
+  return (
+    <div style={{ padding: "20px" }}>
+      <table>
+        <thead>
+          <th>ID</th>
+          <th>USERS</th>
+          <th>EMAIL</th>
+          <th>UPDATE</th>
+        </thead>
+        <tbody>{ShowData}</tbody>  // and show the function return here
+      </table>
+    </div>
+  );
+}
+//******************************************************************************************************//
+
+
+/*
+const [runUseEffect, SetRun] = useState(0);  // i made this const to fix too many requests issue 
+
+ useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/user/show`) 
+      .then((res) => res.json())
+      .then((data) => SetUsers(data));
+  }, [runUseEff]) // this the const's value i made instade users because users change it after any useEffect run and used Effect run after user chaged because refresh abd these too match requests
+
+async function DeleteID(id) { //and i made this aysnc function to wait delete user before change   runUseEffect's value to delete in the same click time 
+    try {
+      const res = await axios.delete(
+        `http://127.0.0.1:8000/api/user/delete/${id}`  //wait this order
+      );
+      if (res.status === 200) {
+        SetRun((prev) => prev + 1);   // then change the  runUseEffect's value
+      }
+    } catch {
+      console.log("s");
+    }
+  }
+ */
+
+
+
+ /*****************************************Update User page*******************************************************/
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function UpdateUser() {
+  const [name, SetName] = useState("");
+  const [email, SetEmail] = useState("");
+  const [password, SetPass] = useState("");
+  const [repassword, SetRePass] = useState("");
+  const [Accsept, SetAccsept] = useState(false);   //the same consts in the SignUp page
+
+  const ID = window.location.pathname.split("/").slice(-1)[0];  // i get the if from url 
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/user/showbyid/${ID}`)
+      .then((res) => res.json())
+      .then((data) => {
+        SetName(data[0].name);  // get name related to this id  like a placeholder until change the valur target
+        SetEmail(data[0].email);  // get email related to this id  like a placeholder until change the valur target
+      });
+  }, []);
+
+  async function StopSubmit(e) {
+    let Flag = true;
+    e.preventDefault();
+    SetAccsept(true);
+    if (name === "" || password.length < 8 || repassword !== password) {
+      Flag = false;
+    } else Flag = true;
+    try {
+      if (Flag) {
+        let res = await axios.post(
+          `http://127.0.0.1:8000/api/user/update/${ID}`,  // send the data yo api to update it 
+          {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: repassword,
+          }
+        );
+        if (res.status === 200) {
+          window.localStorage.setItem("email", email);
+          window.location.pathname = "/dashboard/users";
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  return (
+    <div className="parent">
+      <div className="register">
+        <form onSubmit={StopSubmit}>
+          <label htmlFor="name"> Name: </label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Name...."
+            required
+            value={name}
+            onChange={(e) => SetName(e.target.value)}
+          />
+          {(name === "" && Accsept && <p>Name is required </p>) ||
+            (name.length < 3 && Accsept && (
+              <p className="error">Name is to short</p>
+            ))}
+          <label htmlFor="email"> Email: </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email...."
+            required
+            value={email}
+            onChange={(e) => SetEmail(e.target.value)}
+          />
+
+          <label htmlFor="password"> Password: </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Password...."
+            required
+            value={password}
+            onChange={(e) => SetPass(e.target.value)}
+          />
+          {password.length < 8 && Accsept && (
+            <p className="error">password must be more than 8 Cahr</p>
+          )}
+          <label htmlFor="repassword"> Confirm Password: </label>
+          <input
+            id="repassword"
+            type="password"
+            placeholder="Confirm Password"
+            required
+            value={repassword}
+            onChange={(e) => SetRePass(e.target.value)}
+          />
+          {repassword !== password && Accsept && (
+            <p className="error">password is not match</p>
+          )}
+
+          <div>
+            <button type="submit">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+
+////******************************************************************************************************************
+
+
+//******************************Form components  ******************************************************************
+      
+
+**  i copied the same code from SignUp page  and delete the form from the both then i used props to customoize it in all pages
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+export default function Forms(props) {   // i used props in parent function
+  const [name, SetName] = useState("");
+  const [email, SetEmail] = useState("");
+  const [password, SetPass] = useState("");
+  const [repassword, SetRePass] = useState("");
+  const [Accsept, SetAccsept] = useState(false);
+  const [emailErorr, SetEmailError] = useState("");
+
+  useEffect(() => {
+    SetName(props.name);
+    SetEmail(props.email);
+  }, [props.name, props.email]); // here i used useEffect because useEffect run after All Elements so name  and email will take their value witout infinte loop
+
+  async function StopSubmit(e) {
+    let Flag = true;
+    e.preventDefault();
+    SetAccsept(true);
+    if (name === "" || password.length < 8 || repassword !== password) {
+      Flag = false;
+    } else Flag = true;
+    try {
+      if (Flag) {
+        let res = await axios.post(
+          `http://127.0.0.1:8000/api/${props.endPoint}`,  // here i made props fro link because we have two diffrent api links 
+          {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: repassword,
+          }
+        );
+        if (res.status === 200) {
+          props.hasLocalStorage && window.localStorage.setItem("email", email);   // mean if hasLocalStorage true save in local storage
+          window.location.pathname = `${props.navigate}`; // i made props for where to go after click 
+        }
+      }
+    } catch (err) {
+      SetEmailError(err.response.status);
+    }
+  }
+  return (
+    <>
+      <div className="register">
+        <form onSubmit={StopSubmit}>
+          <label htmlFor="name"> Name: </label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Name...."
+            required
+            value={name}
+            onChange={(e) => SetName(e.target.value)}
+          />
+          {(name === "" && Accsept && <p>Name is required </p>) ||
+            (name?.length < 3 && Accsept && (                               //name?.lenght  mean if we have name give me the lenght
+              <p className="error">Name is to short</p>
+            ))}
+          <label htmlFor="email"> Email: </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email...."
+            required
+            value={email}
+            onChange={(e) => SetEmail(e.target.value)}
+          />
+          {Accsept && emailErorr === 422 && (
+            <p className="error">Email is already taken</p>
+          )}
+          <label htmlFor="password"> Password: </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Password...."
+            required
+            value={password}
+            onChange={(e) => SetPass(e.target.value)}
+          />
+          {password.length < 8 && Accsept && (
+            <p className="error">password must be more than 8 Cahr</p>
+          )}
+          <label htmlFor="repassword"> Confirm Password: </label>
+          <input
+            id="repassword"
+            type="password"
+            placeholder="Confirm Password"
+            required
+            value={repassword}
+            onChange={(e) => SetRePass(e.target.value)}
+          />
+          {repassword !== password && Accsept && (
+            <p className="error">password is not match</p>
+          )}
+
+          <div>
+            <button type="submit">{props.btn}</button>   // made props here to use in both pages by diffrent value
+          </div>
+        </form>
+      </div>
+    </>
+  );
+}
+
+          ********** SignUp page after use Form components**********************
+
+
+import Forms from "./components/Form";
+import Header from "./components/Header";
+export default function SignUp() {
+  return (
+    <>
+      <Header />
+      <div className="parent">
+        <Forms btn="Register" endPoint="register" navigate="/" />  // values of props what i made in Form page
+      </div>
+    </>
+  );
+}
+
+
+        *************** UpdateUser page after use Form components**********************
+
+        import { useEffect, useState } from "react";
+import Forms from "./components/Form";
+
+export default function UpdateUser() {
+  const [name, SetName] = useState("");
+  const [email, SetEmail] = useState("");
+
+  const ID = window.location.pathname.split("/").slice(-1)[0];
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/user/showbyid/${ID}`)           // these const and useEffect specfic to this page 
+      .then((res) => res.json())
+      .then((data) => {
+        SetName(data[0].name);
+        SetEmail(data[0].email);
+      });
+  }, []);
+
+  return (
+    <div className="parent">
+      <Forms
+        btn="Update"
+        name={name}
+        email={email}
+        endPoint={`user/update/${ID}`}       // values of props what i made in Form page
+        navigate="/dashboard/users"
+        hasLocalStorage={false}           
+      />
+    </div>
+  );
+}
+
+
+//*******************************************************************************************************************

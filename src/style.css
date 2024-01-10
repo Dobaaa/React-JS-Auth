@@ -1,0 +1,80 @@
+/*  global value */
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 35px;
+}
+@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Kaisei+Tokumin:wght@400;500;700;800&family=Oswald:wght@400;500;600;700&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500&family=Rubik+Bubbles&family=Rubik+Doodle+Triangles&family=Teko:wght@300;400;500;700&display=swap");
+* {
+  box-sizing: border-box;
+}
+.container {
+  padding: 0 10px;
+  margin: 0 auto;
+}
+body {
+  margin: 0;
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(151, 10, 130) 0%,
+    rgb(33, 33, 33) 100.2%
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.headr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+.home {
+  display: flex;
+  gap: 25px;
+  font-size: 20px;
+  color: white;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  cursor: pointer;
+}
+.nav-link {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.nav-link:hover {
+  color: rgb(26, 29, 30);
+}
+ul {
+  display: flex;
+  gap: 10px;
+}
+button,
+.link {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  list-style: none;
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3;
+  border: 1px solid white;
+  font-weight: bold;
+}
+
+button:hover,
+.link:hover {
+  background-color: transparent;
+}
+.error {
+  color: rgb(236, 5, 5);
+  font-size: 13px;
+  margin-top: 0;
+}
