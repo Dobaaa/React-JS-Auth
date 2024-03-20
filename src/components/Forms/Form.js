@@ -1,14 +1,16 @@
 import axios from "axios";
 import "./index.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { User } from "../../context/Context";
 
 export default function Forms(props) {
   const [name, SetName] = useState("");
   const [email, SetEmail] = useState("");
   const [password, SetPass] = useState("");
   const [repassword, SetRePass] = useState("");
-  const [Accsept, SetAccsept] = useState(false);
   const [emailErorr, SetEmailError] = useState("");
+
+  const UserNow = useContext(User);
 
   const StyleRegister = {
     display: "flex",
@@ -30,28 +32,22 @@ export default function Forms(props) {
   }, [props.name, props.email]);
 
   async function StopSubmit(e) {
-    let Flag = true;
     e.preventDefault();
-    SetAccsept(true);
-    if (name === "" || password.length < 8 || repassword !== password) {
-      Flag = false;
-    } else Flag = true;
+
     try {
-      if (Flag) {
-        let res = await axios.post(
-          `http://127.0.0.1:8000/api/${props.endPoint}`,
-          {
-            name: name,
-            email: email,
-            password: password,
-            password_confirmation: repassword,
-          }
-        );
-        if (res.status === 200) {
-          props.hasLocalStorage && window.localStorage.setItem("email", email);
-          window.location.pathname = `${props.navigate}`;
+      let res = await axios.post(
+        `http://127.0.0.1:8000/api/${props.endPoint}`,
+        {
+          name: name,
+          email: email,
+          password: password,
+          password_confirmation: repassword,
         }
-      }
+      );
+      const token = res.data.data.token;
+      const UserDetails = res.data.data.user;
+
+      UserNow.SetAuth({ token, UserDetails });
     } catch (err) {
       SetEmailError(err.response.status);
     }
@@ -69,10 +65,10 @@ export default function Forms(props) {
             value={name}
             onChange={(e) => SetName(e.target.value)}
           />
-          {(name === "" && Accsept && <p>Name is required </p>) ||
+          {/*(name === "" && Accsept && <p>Name is required </p>) ||
             (name?.length < 3 && Accsept && (
               <p className="error">Name is to short</p>
-            ))}
+            ))*/}
           <label htmlFor="email"> Email: </label>
           <input
             id="email"
@@ -82,9 +78,9 @@ export default function Forms(props) {
             value={email}
             onChange={(e) => SetEmail(e.target.value)}
           />
-          {Accsept && emailErorr === 422 && (
+          {/* Accsept && emailErorr === 422 && (
             <p className="error">Email is already taken</p>
-          )}
+          )*/}
           <label htmlFor="password"> Password: </label>
           <input
             id="password"
@@ -94,9 +90,9 @@ export default function Forms(props) {
             value={password}
             onChange={(e) => SetPass(e.target.value)}
           />
-          {password.length < 8 && Accsept && (
+          {/*password.length < 8 && Accsept && (
             <p className="error">password must be more than 8 Cahr</p>
-          )}
+          )*/}
           <label htmlFor="repassword"> Confirm Password: </label>
           <input
             id="repassword"
@@ -106,9 +102,9 @@ export default function Forms(props) {
             value={repassword}
             onChange={(e) => SetRePass(e.target.value)}
           />
-          {repassword !== password && Accsept && (
+          {/*repassword !== password && Accsept && (
             <p className="error">password is not match</p>
-          )}
+          )*/}
 
           <div>
             <button type="submit">{props.btn}</button>
